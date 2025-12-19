@@ -91,12 +91,8 @@ def layermain():
 
         print(laType, lineNo, dieNo, auditorName, auditeeName)
 
-        # current_year = datetime.now().year
-        # current_month = datetime.now().month
+        # Database connection for status check (Optimized or removed if unused in future)
 
-        # checkStatus_query = f"SELECT STATUS,LS_TYPE FROM LAYER_AUDIT_DATA WHERE YEAR(DATE_STAMP)='{current_year}' "
-        # \ f"AND MONTH(DATE_STAMP)='{current_month}' AND LS_TYPE='{laType}' AND LINE_NO='{lineNo}' " \ f"AND
-        # DIE_NO='{dieNo}'" statusResult = db_connection().execute(checkStatus_query).fetchval() print(statusResult)
 
         audit_query = "INSERT INTO LAYER_AUDIT_DATA (DATE_STAMP, LS_TYPE, LINE_NO, DIE_NO, AUDITOR_NAME, " \
                       "AUDITEE_NAME) VALUES (?,?,?,?,?,?) "
@@ -151,10 +147,7 @@ def process_data():
                 db_connection().execute(insert_query, values).commit()
             else:
                 print(f"Record already exists for {date_stamp}, {point_number}, {lineNo}, {dieNo}")
-                # update_query = f"UPDATE LAYER_AUDIT SET POINTS='{selected_value}', REMARKS='{remarks}' " \
-                #                f"WHERE DATE_STAMP='{date_stamp}' AND AREA='{point_number}' AND LS_TYPE='{laType}' " \
-                #                f"AND LINE_NO='{lineNo}' AND DIE_NO='{dieNo}'"
-                # db_connection().execute(update_query).commit()
+
 
         return jsonify({"message": "Data received successfully"})
     except Exception as e:
